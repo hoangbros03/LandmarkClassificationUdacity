@@ -7,7 +7,20 @@ class MyModel(nn.Module):
     def __init__(self, num_classes: int = 1000, dropout: float = 0.7) -> None:
 
         super().__init__()
+        self.model = nn.Sequential(
+            nn.Conv2d(3,16,3,padding=1),
+            nn.Conv2d(16,16,3), #222*222*16
+            nn.MaxPool2d(2, stride=2),#111*111*16
+            nn.Conv2d(16,32,4,1),# 108*108*32
+            nn.MaxPool2d(2, stride=2), #54*54*32
+            nn.Conv2d(32,64,1,1,0), #54*54*64
+            nn.MaxPool2d(2, stride=2), #27*27*64
+            nn.Conv2d(64,64,4,1), #24*24*64
+            nn.MaxPool2d(4, stride=4), #6*6*64
+            nn.Flatten(),
+            nn.Linear(6*6*64,num_classes)
 
+        )
         # YOUR CODE HERE
         # Define a CNN architecture. Remember to use the variable num_classes
         # to size appropriately the output of your classifier, and if you use
@@ -18,8 +31,7 @@ class MyModel(nn.Module):
         # YOUR CODE HERE: process the input tensor through the
         # feature extractor, the pooling and the final linear
         # layers (if appropriate for the architecture chosen)
-        return x
-
+        return self.model(x)
 
 ######################################################################################
 #                                     TESTS
