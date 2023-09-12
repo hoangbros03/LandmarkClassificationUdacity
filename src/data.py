@@ -46,26 +46,29 @@ def get_data_loaders(
     # HINT: resize the image to 256 first, then crop them to 224, then add the
     # appropriate transforms for that step
     data_transforms = {
-        "train": transforms.Compose(
-            transforms.resize(256),
+        "train": transforms.Compose([
+            transforms.Resize(256),
             transforms.RandomCrop(224),
             transforms.RandomHorizontalFlip(),
-            transforms.RandomRotation(),
-            transforms.Normalize(),
-            transforms.ToTensor()
+            transforms.RandomRotation(30),
+            
+            transforms.ToTensor(),
+            transforms.Normalize(mean,std)]
         ),
-        "valid": transforms.Compose(
-            transforms.resize(256),
+        "valid": transforms.Compose([
+            transforms.Resize(256),
             transforms.RandomCrop(224),
-            transforms.Normalize(),
-            transforms.ToTensor()
+        
+            transforms.ToTensor(),
+            transforms.Normalize(mean,std)]
         ),
-        "test": transforms.Compose(
+        "test": transforms.Compose([
             # YOUR CODE HERE
-            transforms.resize(256),
+            transforms.Resize(256),
             transforms.RandomCrop(224),
-            transforms.Normalize(),
-            transforms.ToTensor()
+          
+            transforms.ToTensor(),
+            transforms.Normalize(mean,std)]
         ),
     }
 
